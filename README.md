@@ -16,6 +16,7 @@ VimGodot는 Godot 게임 엔진의 스크립트 편집기에서 Vim의 강력한
 ## 🛠 커스텀 설정
 - `res://addons/VimGodot/conf/key_maping.json`: VimGodot의 키 바인딩 설정 파일입니다. 이 파일을 수정하여 원하는 키 바인딩을 설정할 수 있습니다.
 - `res://addons/VimGodot/conf/keys_white_list.json`: 특정 키를 화이트리스트에 추가하여 VimGodot가 해당 키 입력을 무시하도록 설정할 수 있습니다.
+- 설정 후 Godot 에디터를 재시작하거나, 커맨드 팔레트에서 "VimGodot: Reload Settings" 명령어를 실행하여 변경 사항을 적용하세요.
 - 자세한 설정은 [setting.md](docs/setting.md) 파일을 참고하세요.
 
 ## 🏗️ 아키텍처
