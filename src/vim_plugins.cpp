@@ -28,15 +28,7 @@ void VimEditorPlugin::_enter_tree() {
 void VimEditorPlugin::_exit_tree() {}
 
 void VimEditorPlugin::init() {
-    Ref<FileAccess> key_file = FileAccess::open(KEY_PATH, FileAccess::READ);
-    Ref<FileAccess> white_list_file = FileAccess::open(WHITE_LIST_PATH, FileAccess::READ);
-    if(!key_file.is_valid() || !white_list_file.is_valid()) {
-        ERR_PRINT("VimGodot: vim을 위한 설정 파일을 열 수 없습니다");
-        return;
-    }
-    command_dispatcher = new CommandDispatcher(JSON::parse_string(key_file->get_as_text()));
-    command_whitelist = JSON::parse_string(white_list_file->get_as_text());
-
+    _reload_settings();
     editor_interface = get_editor_interface();
     ScriptEditor* editor = editor_interface->get_script_editor();
     editor->connect("editor_script_changed", callable_mp(this, &VimEditorPlugin::_on_script_changed));
@@ -46,6 +38,21 @@ void VimEditorPlugin::init() {
     Node* find_bar = find_first_node_of_type(editor, "FindReplaceBar");
     LineEdit* find_bar_line_edit = Object::cast_to<LineEdit>(find_first_node_of_type(find_bar, "LineEdit"));
     find_bar_line_edit->connect("text_changed", callable_mp(this, &VimEditorPlugin::_on_search_text_changed));
+
+    EditorCommandPalette* command_palette = editor_interface->get_command_palette();
+    command_palette->add_command("VimGodot: Reload Settings", "VimGodot", callable_mp(this, &VimEditorPlugin::_reload_settings), String::utf8("VimGodot의 설정 파일을 다시 불러옵니다"));
+}
+
+void VimEditorPlugin::_reload_settings() {
+    Ref<FileAccess> key_file = FileAccess::open(KEY_PATH, FileAccess::READ);
+    Ref<FileAccess> white_list_file = FileAccess::open(WHITE_LIST_PATH, FileAccess::READ);
+    if(!key_file.is_valid() || !white_list_file.is_valid()) {
+        ERR_PRINT("VimGodot: vim을 위한 설정 파일을 열 수 없습니다");
+        return;
+    }
+    command_dispatcher = new CommandDispatcher(JSON::parse_string(key_file->get_as_text()));
+    command_whitelist = JSON::parse_string(white_list_file->get_as_text());
+    print_line(String::utf8("VimGodot: 설정 파일을 불러왔습니다"));
 }
 
 void VimEditorPlugin::_input(const Ref<InputEvent> &event) {

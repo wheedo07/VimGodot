@@ -3,6 +3,7 @@
 
 #include<godot_cpp/classes/editor_plugin.hpp>
 #include<godot_cpp/classes/editor_interface.hpp>
+#include<godot_cpp/classes/editor_command_palette.hpp>
 #include "vim/main.h"
 #include "vim/editor_adaptor.h"
 #include "vim/command_dispatcher.h"
@@ -26,6 +27,7 @@ namespace godot {
             void _on_search_text_changed(String text);
             void _on_caret_changed();
             void on_lines_edited_from(int form, int to);
+            void _reload_settings();
             Node* find_first_node_of_type(Node* q, String type);
 
         public:

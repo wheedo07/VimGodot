@@ -1,4 +1,6 @@
 [
     "Enter",
-	"Ctrl+S"
+	"Ctrl+S",
+    "Shift+F11",
+    "Ctrl+Shift+P"
 ]
