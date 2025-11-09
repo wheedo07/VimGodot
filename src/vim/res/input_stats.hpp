@@ -5,12 +5,12 @@
 using namespace godot;
 class InputStats {
     private:
-        String prefix_repeat;
-        String motion_repeat;
+        String prefix_repeat = "";
+        String motion_repeat = "";
 
     public:
         Dictionary operator_args;
-        String vim_operator;
+        String vim_operator = "";
         Array buffer;
 
         void push_key(Ref<InputEventKey> key_event) {
@@ -24,7 +24,7 @@ class InputStats {
         }
 
         int get_repeat() {
-            int repeat = 1;
+            int repeat = 0;
             if(!prefix_repeat.is_empty()) 
                 repeat = MAX(repeat, 1) * prefix_repeat.to_int();
 

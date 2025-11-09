@@ -26,11 +26,12 @@ namespace godot {
 
             bool dispatch(Ref<InputEventKey> key, Ref<VimCore> core, Ref<EditorAdaptor> editor_adaptor);
             CommandMatchResult* match_commands(String context, InputStats* input_state, Ref<EditorAdaptor> editor_adaptor, Ref<VimCore> core);
-            bool is_command_available(Dictionary command, String context, Ref<EditorAdaptor> editor_adaptor, Ref<VimCore> core);
+
             bool process_command(Dictionary command, Ref<EditorAdaptor> editor_adaptor, Ref<VimCore> core);
             void process_action(String action, Dictionary action_args, Ref<EditorAdaptor> editor_adaptor, Ref<VimCore> core);
             void process_operator(String oper, Dictionary oper_args, Ref<EditorAdaptor> editor_adaptor, Ref<VimCore> core);
             Variant process_motion(String motion, Dictionary motion_args, Ref<EditorAdaptor> editor_adaptor, Ref<VimCore> core);
+            bool is_command_available(Dictionary command, String context, Ref<EditorAdaptor> editor_adaptor, Ref<VimCore> core);
     };
 }
 
