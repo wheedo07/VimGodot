@@ -1,0 +1,9 @@
+[configuration]
+
+entry_symbol = "godot_vim_main_init"
+compatibility_minimum = "4.3"
+
+[libraries]
+
+linux.editor.x86_64 = "lib/lib.VimGodot.linux_debug.x86_64.so"
+windows.editor.x86_64 = "lib/lib.VimGodot.windows_debug.x86_64.dll"
