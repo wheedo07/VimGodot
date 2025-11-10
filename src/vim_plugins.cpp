@@ -27,7 +27,9 @@ void VimEditorPlugin::_enter_tree() {
 }
 
 void VimEditorPlugin::_exit_tree() {
-    delete command_dispatcher;
+    ScriptEditor* editor = editor_interface->get_script_editor();
+    editor->disconnect("editor_script_changed", callable_mp(this, &VimEditorPlugin::_on_script_changed));
+    editor->disconnect("script_close", callable_mp(this, &VimEditorPlugin::_on_script_closed));
 }
 
 void VimEditorPlugin::init() {
