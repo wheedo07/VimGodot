@@ -26,7 +26,9 @@ void VimEditorPlugin::_enter_tree() {
     call_deferred("init");
 }
 
-void VimEditorPlugin::_exit_tree() {}
+void VimEditorPlugin::_exit_tree() {
+    delete command_dispatcher;
+}
 
 void VimEditorPlugin::init() {
     _reload_settings();
