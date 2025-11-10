@@ -16,6 +16,7 @@ namespace godot {
             static void _bind_methods();
 
         private:
+            bool vim_mode;
             Array command_whitelist;
             EditorInterface* editor_interface;
             CommandDispatcher* command_dispatcher;
@@ -28,6 +29,7 @@ namespace godot {
             void _on_caret_changed();
             void on_lines_edited_from(int form, int to);
             void _reload_settings();
+            void _toggle_vim_mode();
             Node* find_first_node_of_type(Node* q, String type);
 
         public:

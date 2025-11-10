@@ -10,6 +10,7 @@
 using namespace godot;
 
 VimEditorPlugin::VimEditorPlugin() {
+    vim_mode = true;
     command_dispatcher = nullptr;
     core.instantiate();
     editor_adaptor.instantiate();
@@ -40,9 +41,11 @@ void VimEditorPlugin::init() {
     find_bar_line_edit->connect("text_changed", callable_mp(this, &VimEditorPlugin::_on_search_text_changed));
 
     EditorCommandPalette* command_palette = editor_interface->get_command_palette();
-    command_palette->add_command("VimGodot: Reload Settings", "VimGodot", callable_mp(this, &VimEditorPlugin::_reload_settings), String::utf8("VimGodot의 설정 파일을 다시 불러옵니다"));
+    command_palette->add_command("VimGodot: Toggle Vim Mode", "VimGodot", callable_mp(this, &VimEditorPlugin::_toggle_vim_mode), String::utf8("Vim 모드를 켜거나 끕니다"));
+    command_palette->add_command("VimGodot: Reload Settings", "VimGodot/Setting", callable_mp(this, &VimEditorPlugin::_reload_settings), String::utf8("VimGodot의 설정 파일을 다시 불러옵니다"));
 }
 
+bool is_frist = true;
 void VimEditorPlugin::_reload_settings() {
     Ref<FileAccess> key_file = FileAccess::open(KEY_PATH, FileAccess::READ);
     Ref<FileAccess> white_list_file = FileAccess::open(WHITE_LIST_PATH, FileAccess::READ);
@@ -52,7 +55,23 @@ void VimEditorPlugin::_reload_settings() {
     }
     command_dispatcher = new CommandDispatcher(JSON::parse_string(key_file->get_as_text()));
     command_whitelist = JSON::parse_string(white_list_file->get_as_text());
-    print_line(String::utf8("VimGodot: 설정 파일을 불러왔습니다"));
+    if(!is_frist) print_line(String::utf8("VimGodot: 설정 파일을 불러왔습니다"));
+    is_frist = false;
+}
+
+void VimEditorPlugin::_toggle_vim_mode() {
+    vim_mode = !vim_mode;
+    editor_adaptor->set_caret_blink(!vim_mode);
+    if(vim_mode) {
+        if(core->current.is_valid()) core->current->enter_normal_mode();
+        is_frist = true;
+        _reload_settings();
+        print_line(String::utf8("VimGodot: Vim 모드를 활성화했습니다"));
+    }else {
+        if(core->current.is_valid()) core->current->enter_insert_mode();
+        command_dispatcher = nullptr;
+        print_line(String::utf8("VimGodot: Vim 모드를 비활성화했습니다"));
+    }
 }
 
 void VimEditorPlugin::_input(const Ref<InputEvent> &event) {
