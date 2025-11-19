@@ -5,5 +5,5 @@ compatibility_minimum = "4.3"
 
 [libraries]
 
-linux.editor.x86_64 = "lib/lib.VimGodot.linux_debug.x86_64.so"
+linux.editor.x86_32 = "lib/lib.VimGodot.linux_debug.x86_32.so"
 windows.editor.x86_64 = "lib/lib.VimGodot.windows_debug.x86_64.dll"
